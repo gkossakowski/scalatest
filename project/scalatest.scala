@@ -4,7 +4,7 @@ import java.net.{URL, URLClassLoader}
 
 object ScalatestBuild extends Build {
 
-  val scalaVersionToUse = "2.10.0"
+  val scalaVersionToUse = "2.11.0-SNAPSHOT"
     
   val releaseVersion = "2.0.M6-SNAP27"
                               
@@ -100,7 +100,7 @@ object ScalatestBuild extends Build {
 
    def simpledependencies = Seq(
      "org.scala-sbt" % "test-interface" % "1.0" % "optional", 
-     "org.scalacheck" % ("scalacheck_" + scalaVersionToUse) % "1.10.0" % "optional", 
+     "org.scalacheck" % ("scalacheck_" + scalaVersionToUse) % "1.10.2-SNAPSHOT" % "optional", 
      "org.easymock" % "easymockclassextension" % "3.1" % "optional", 
      "org.jmock" % "jmock-legacy" % "2.5.1" % "optional", 
      "org.mockito" % "mockito-all" % "1.9.0" % "optional", 
