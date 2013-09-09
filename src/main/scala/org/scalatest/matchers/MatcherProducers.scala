@@ -16,14 +16,15 @@
 package org.scalatest.matchers
 
 trait MatcherProducers {
-  implicit def decorate[T](f: T => Matcher[T]) = 
-    new {
-      def composeTwice[U](g: U => T): U => Matcher[U] = (f compose g) andThen (_ compose g)
-      def mapResult(prettify: MatchResult => MatchResult): T => Matcher[T] =
-        (o: T) => f(o) mapResult prettify
-      def mapArgs(prettify: Any => String): T => Matcher[T] =
-        (o: T) => f(o) mapArgs prettify
-    }
+  class Decorator[T](f: T => Matcher[T]) {
+    def composeTwice[U](g: U => T): U => Matcher[U] = (f compose g) andThen (_ compose g)
+    def mapResult(prettify: MatchResult => MatchResult): T => Matcher[T] =
+      (o: T) => f(o) mapResult prettify
+    def mapArgs(prettify: Any => String): T => Matcher[T] =
+      (o: T) => f(o) mapArgs prettify
+  }
+  implicit def decorate[T](f: T => Matcher[T]): Decorator[T] =
+    new Decorator(f)
 }
 
 object MatcherProducers extends MatcherProducers
