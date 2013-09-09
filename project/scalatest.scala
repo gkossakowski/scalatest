@@ -4,7 +4,7 @@ import java.net.{URL, URLClassLoader}
 
 object ScalatestBuild extends Build {
 
-  val scalaVersionToUse = "2.10.0"
+  val scalaVersionToUse = "2.11.0-M5"
     
   val releaseVersion = "2.0.M6-SNAP27"
                               
@@ -13,6 +13,12 @@ object ScalatestBuild extends Build {
      organization := "org.scalatest",
      version := releaseVersion,
      scalaVersion := scalaVersionToUse,
+     libraryDependencies ++= {
+       // XML has been split into a separate module in Scala 2.11.0-M5
+       val sVer = scalaVersion.value
+       if((sVer startsWith "2.9") || (sVer startsWith "2.10")) Seq.empty
+       else Seq("org.scala-lang.modules" %% "scala-xml" % "1.0-RC4")
+     },
      ivyXML := 
        <dependency org="org.eclipse.jetty.orbit" name="javax.servlet" rev="3.0.0.v201112011016">
          <artifact name="javax.servlet" type="orbit" ext="jar"/>
@@ -100,7 +106,7 @@ object ScalatestBuild extends Build {
 
    def simpledependencies = Seq(
      "org.scala-sbt" % "test-interface" % "1.0" % "optional", 
-     "org.scalacheck" % ("scalacheck_" + scalaVersionToUse) % "1.10.0" % "optional", 
+     "org.scalacheck" % ("scalacheck_" + scalaVersionToUse) % "1.10.1" % "optional",
      "org.easymock" % "easymockclassextension" % "3.1" % "optional", 
      "org.jmock" % "jmock-legacy" % "2.5.1" % "optional", 
      "org.mockito" % "mockito-all" % "1.9.0" % "optional", 
